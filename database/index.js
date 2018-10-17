@@ -1,11 +1,23 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
-let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
-});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log('Connected to mongoose DB')
 
-let Repo = mongoose.model('Repo', repoSchema);
+  let repoSchema = mongoose.Schema({
+    // TODO: your schema here!
+  
+  });
+  let Repo = mongoose.model('Repo', repoSchema);
+
+})
+
+
+
+
 
 let save = (/* TODO */) => {
   // TODO: Your code here
