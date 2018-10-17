@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 let app = express();
 const github = require('../helpers/github').getReposByUsername;
+const db = require('../database/index');
 
 
 
@@ -19,21 +20,17 @@ app.post('/repos', function (req, res) {
   github(req.body.username, (apiResponse)=>{
 //console.log(apiResponse);
 let repoList = apiResponse.data.sort((a, b) => {return b.watchers - a.watchers});
-console.log(repoList);
-  })
+// console.log(repoList[0].url);
+// console.log(repoList[0].name);
+// console.log(repoList[0].owner.login);
+// console.log(repoList[0].watchers);
 
+db.save(repoList);
+});
 
+res.statusCode = 201;
+res.end();
 
-
-
-
-
-
-
-
-
-  res.statusCode = 201;
-  res.end('message recieved');
   // TODO - your code here!
   // This route should take the github username provided
   // and get the repo information from the github API, then
@@ -41,7 +38,12 @@ console.log(repoList);
 });
 
 app.get('/repos', function (req, res) {
+console.log('INSIDE SERVER GET', req.body);
 
+db.retrieve((results) => {
+  res.json(results);
+  res.end();
+})
   // TODO - your code here!
   // This route should send back the top 25 repos
 });

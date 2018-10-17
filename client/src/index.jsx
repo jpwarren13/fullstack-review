@@ -25,7 +25,12 @@ class App extends React.Component {
   }})
       .then((response) => {
         // once sucessful, initiate a get response. 
-        console.log(response.data);
+        console.log(response);
+        axios.get('http://localhost:1128/repos').then((response) => {
+          console.log('*************I MADE IT BACK!', response.data);
+
+          this.setState({repos: response.data});
+        })
       })
 
     // TODO
