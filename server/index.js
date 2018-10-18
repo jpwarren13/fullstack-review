@@ -23,10 +23,10 @@ let repoList = apiResponse.data.sort((a, b) => {return b.watchers - a.watchers})
 
 
 db.save(repoList, () => {
-  
-});
-res.statusCode = 201;
+  res.statusCode = 201;
 res.end();
+});
+
 });
 
 

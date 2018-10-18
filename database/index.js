@@ -22,12 +22,9 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 
-let save = (repoList) => {
-  // console.log(repoList[0].url);
-  // console.log(repoList[0].name);
-  // console.log(repoList[0].owner.login);
-  // console.log(repoList[0].watchers);
+let save = (repoList, callback) => {
 let reps = [];
+
 for (let i = 0; i < repoList.length; i++){
   let insertion = new Repo({
     username: repoList[i].owner.login,
@@ -36,12 +33,13 @@ for (let i = 0; i < repoList.length; i++){
     rank: repoList[i].watchers,
     id: repoList[i].id
   })
+
 reps.push(insertion);
-console.log(reps);
+//console.log(reps);
 }
 Repo.insertMany(reps, (err) => {
   console.error(err);
-})
+}).then(() => callback())
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
