@@ -26,10 +26,11 @@ componentDidMount(){
     console.log(`${term} was searched`);
 
     axios.post('http://localhost:1128/repos', {username: term,
-  headers: {
-    'crossDomain': true,
-    'Content-Type': 'application/json' 
-  }})
+  // headers: {
+  //   'crossDomain': true,
+  //   'Content-Type': 'application/json' 
+  // }
+  })
       .then((response) => {
         // once sucessful, initiate a get response. 
         console.log(response);
@@ -37,7 +38,7 @@ componentDidMount(){
           console.log('*************I MADE IT BACK!', response.data);
 
           this.setState({repos: response.data});
-          this.forceUpdate();
+          //this.forceUpdate();
         })
       })
 
