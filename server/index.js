@@ -20,16 +20,16 @@ app.post('/repos', function (req, res) {
   github(req.body.username, (apiResponse)=>{
 //console.log(apiResponse);
 let repoList = apiResponse.data.sort((a, b) => {return b.watchers - a.watchers});
-// console.log(repoList[0].url);
-// console.log(repoList[0].name);
-// console.log(repoList[0].owner.login);
-// console.log(repoList[0].watchers);
 
-db.save(repoList);
+
+db.save(repoList, () => {
+  
 });
-
 res.statusCode = 201;
 res.end();
+});
+
+
 
   // TODO - your code here!
   // This route should take the github username provided
