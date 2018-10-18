@@ -12,9 +12,10 @@ db.once('open', function() {
 
 let repoSchema = mongoose.Schema({
   username: String,
-  url: String,
+  url:  String,
   dbName: String,
   rank: String,
+  id: {type: Number, unique: true}
   
 });
 
@@ -33,6 +34,7 @@ for (let i = 0; i < repoList.length; i++){
     url: repoList[i].svn_url,
     dbName: repoList[i].name,
     rank: repoList[i].watchers,
+    id: repoList[i].id
   })
 reps.push(insertion);
 console.log(reps);
@@ -45,11 +47,12 @@ Repo.insertMany(reps, (err) => {
   // the MongoDB
 }
 let retrieve = (callback) => {
-  Repo.find().sort({'rank': -1}).limit(25).exec((err, docs) => {
+  Repo.find().limit(25).sort({'rank': -1}).exec((err, docs) => {
 if (err){
   console.error(err);
 } else {
   console.log('INSIDE RETRIEVE!', docs);
+  docs.sort((a,b)=> b.rank - a.rank);
   callback(docs);
 }
 

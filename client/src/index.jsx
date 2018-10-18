@@ -4,17 +4,24 @@ import $ from 'jquery';
 import axios from 'axios';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import data from '../../data1.json'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      repos: []
+      repos: data,
     }
     this.search = this.search.bind(this);
 
   }
+componentDidMount(){
+  axios.get('http://localhost:1128/repos').then((response) => {
+    console.log('*************I MADE IT BACK!', response.data);
 
+    this.setState({repos: response.data});
+  })
+}
   search (term) {
     console.log(`${term} was searched`);
 
@@ -30,6 +37,7 @@ class App extends React.Component {
           console.log('*************I MADE IT BACK!', response.data);
 
           this.setState({repos: response.data});
+          this.forceUpdate();
         })
       })
 
